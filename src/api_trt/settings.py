@@ -63,6 +63,6 @@ class Models(BaseSettings):
 
 class Settings(BaseSettings):
     log_level: str = 'INFO'
-    port: int = 18080
+    port: int = 80
     models = Models()
     defaults = Defaults()
