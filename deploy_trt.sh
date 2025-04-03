@@ -1,10 +1,10 @@
 #! /bin/bash
 
-IMAGE='insightface-rest'
+IMAGE='aalekhpatel07/insightface-rest'
 TAG='v0.9.0.0'
 
 # Change InsightFace-REST logging level (DEBUG,INFO,WARNING,ERROR)
-log_level=INFO
+log_level=DEBUG
 
 # When starting multiple containers this will be port assigned to first container
 START_PORT=18081
@@ -43,11 +43,11 @@ force_fp16=False
 det_model=scrfd_10g_gnkps
 
 ## Maximum batch size for detection model
-det_batch_size=1
+det_batch_size=8
 
 # REC MODELS:
 ## None, arcface_r100_v1, glintr100, w600k_r50, w600k_mbf
-rec_model=glintr100
+rec_model=None
 
 ## Maximum batch size for recognition model (this value also applies for GA and mask detection models)
 rec_batch_size=1
@@ -81,10 +81,11 @@ det_thresh=0.6
 # DEPLOY CONTAINERS
 
 # Create directory to store downloaded models
-mkdir -p models
+# mkdir -p models
 
+docker build -t $IMAGE:$TAG -f src/Dockerfile_trt .
 
-docker build -t $IMAGE:$TAG -f src/Dockerfile_trt src/.
+exit 0
 
 echo "Starting $((n_gpu * n_workers)) workers on $n_gpu GPUs ($n_workers workers per GPU)";
 echo "Containers port range: $START_PORT - $(($START_PORT + ($n_gpu) - 1))"

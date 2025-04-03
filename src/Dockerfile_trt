@@ -15,14 +15,17 @@ RUN apt-get update &&\
             ffmpeg &&\
     rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+COPY src/requirements.txt .
 RUN $PIP_INSTALL -r requirements.txt
 # GPU specific packages
 RUN $PIP_INSTALL cupy-cuda12x pynvjpeg
 
 WORKDIR /app
-COPY api_trt /app/api_trt
-COPY entrypoint.sh /app/entrypoint.sh
+COPY src/api_trt /app/api_trt
+COPY src/entrypoint.sh /app/entrypoint.sh
+
+RUN mkdir -p /models
+COPY models/models.json /models/models.json
 
 ENTRYPOINT [ "bash" ]
 CMD ["entrypoint.sh"]
