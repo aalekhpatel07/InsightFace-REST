@@ -101,13 +101,13 @@ for i in $(seq 0 $(($n_gpu - 1)) ); do
     docker rm -f $name;
     echo --- Starting container $name  with $device  at port $port;
     ((p++));
-    docker run  -p $port:18080\
+    docker run  -p $port:80\
         --gpus $device\
         -d\
         -e LOG_LEVEL=$log_level\
         -e USE_NVJPEG=False\
         -e PYTHONUNBUFFERED=0\
-        -e PORT=18080\
+        -e PORT=80\
         -e NUM_WORKERS=$n_workers\
         -e INFERENCE_BACKEND=trt\
         -e FORCE_FP16=$force_fp16\
